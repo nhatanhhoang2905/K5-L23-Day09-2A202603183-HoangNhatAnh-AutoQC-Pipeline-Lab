@@ -1,6 +1,6 @@
 # Train trên Google Colab
 
-[![Mở trong Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nhatanhhoang2905/K5-L23-Day09-2A202603183-HoangNhatAnhAutoQC-Pipeline-Lab/blob/main/notebooks/day09_train_compare.ipynb)
+[![Mở trong Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nhatanhhoang2905/K5-L23-Day09-2A202603183-HoangNhatAnh-AutoQC-Pipeline-Lab/blob/main/notebooks/day09_train_compare.ipynb)
 *(Link trỏ repo cá nhân theo remote `origin` hiện tại. Repo phải **public**; nếu đổi tên repo trên GitHub, cập nhật link và `REPO_URL` trong notebook.)*
 
 Chỉ phần **train** cần GPU (T4 miễn phí). Pipeline, calibration và báo cáo chạy ngay trên máy bạn.
