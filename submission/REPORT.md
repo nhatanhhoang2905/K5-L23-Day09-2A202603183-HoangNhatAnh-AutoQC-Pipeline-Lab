@@ -67,7 +67,23 @@ Hai điểm chưa bắt hết:
 
 ## 5. Train: raw vs clean
 
-**Chưa chạy.** Hiện tôi hoàn thành phần QC và calibration trước; `submission/results/` chưa có kết quả train. Chưa có mAP hay độ lệch giữa các seed để kết luận clean giúp model tốt hơn raw.
+Đã train trên Colab T4, cùng model khởi tạo `yolo26n.pt`, 20 epoch, batch 16, imgsz 640 và hai seed 0/1 cho mỗi biến thể. Hai bên dùng chung gold_val 40 ảnh để validation và test 100 ảnh để đánh giá cuối. Kết quả clean khớp checksum của manifest 205 ảnh hiện tại.
+
+| biến thể | #ảnh train | số seed | map50 (TB ± độ lệch) | map50_95 (TB ± độ lệch) | precision (TB ± độ lệch) | recall (TB ± độ lệch) |
+|---|---|---|---|---|---|---|
+| raw | 224 | 2 | 0.726 ± 0.000 | 0.512 ± 0.004 | 0.764 ± 0.061 | 0.649 ± 0.028 |
+| clean | 205 | 2 | 0.700 ± 0.030 | 0.486 ± 0.013 | 0.715 ± 0.073 | 0.615 ± 0.017 |
+
+Chênh mAP50 (clean − raw) = **-0.025**.
+
+mAP50 của raw ở hai seed là 0.7256 và 0.7259; clean là 0.6788 và 0.7219. Chênh trung bình clean − raw là **-0.0254** (khoảng 2.54 điểm phần trăm). Độ lệch chuẩn mAP50 là 0.00021 ở raw và 0.03048 ở clean; bảng trên làm tròn ba chữ số nên độ lệch raw hiển thị 0.000, không phải bằng 0.
+
+Trong lần thử này, clean cho điểm thấp hơn raw. Mức giảm vẫn nhỏ hơn độ lệch giữa hai seed clean, nên với hai seed chưa đủ cơ sở để nói clean kém hơn một cách ổn định, cũng chưa có bằng chứng clean giúp tăng mAP. Hai khả năng cần kiểm tiếp:
+
+- **Raw có rò rỉ dữ liệu:** intake phát hiện 4 ảnh LEAK_TEST trùng kho test/val. Điều này có thể làm điểm raw cao hơn. Cần train thêm một biến thể raw trên bản sao chỉ loại các ảnh rò rỉ, giữ nguyên model, seed, val/test và các thiết lập khác để tách ảnh hưởng này.
+- **Clean chưa sạch hoàn toàn và bộ train đã thay đổi:** sau QC vẫn có 38/205 ảnh cảnh báo chưa duyệt, đồng thời ít hơn raw 19 ảnh. AP50 trung bình lớp truck giảm từ 0.6484 xuống 0.5588. Cần xem lại các ảnh/box truck và ảnh còn cảnh báo, đếm box theo lớp, rồi train lại cùng cấu hình sau khi duyệt. Các cảnh báo chưa chứng minh mọi nhãn ở những ảnh đó đều sai.
+
+Bước tiếp theo là bổ sung seed cho cả hai biến thể và giữ cùng cách đánh giá, vì test chỉ có 100 ảnh. Số ảnh 224/205 trong bảng là số file bộ train do script ghi nhận; riêng raw, chưa có số đếm ảnh thực sự được Ultralytics dùng sau khi bỏ ảnh/nhãn hỏng từ log train.
 
 ## 6. Quyết định và ghi chú AI
 
