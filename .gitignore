@@ -7,3 +7,6 @@ __pycache__/
 *.pt
 runs/
 _instructor/solution/
+
+# Personal local guide — do not publish to GitHub.
+/HUONG_DAN_LAM_BAI_LOCAL.md
